@@ -82,7 +82,7 @@ RSpec.describe Metadata::SAML do
     end
   end
 
-  context 'Organization' do
+  context 'Organizations' do
     let(:organization) do
       create :organization, :with_multiple_organization_languages
     end
@@ -90,18 +90,21 @@ RSpec.describe Metadata::SAML do
     include_examples 'Organization xml'
   end
 
-  context 'ContactPerson' do
+  context 'ContactPersons' do
     let(:contact_person) { create :contact_person }
     before { subject.contact_person(contact_person) }
     include_examples 'ContactPerson xml'
   end
 
-  context 'EntityAttribute' do
+  context 'EntityAttributes' do
     let(:entity_attribute) { create :mdattr_entity_attribute }
     before { subject.entity_attribute(entity_attribute) }
     include_examples 'mdattr:EntityAttribute xml'
   end
 
-  it 'attribute'
-  it 'attribute value'
+  context 'Attributes and AttributeValues' do
+    let(:attribute) { create :attribute }
+    before { subject.attribute(attribute) }
+    include_examples 'saml:Attribute xml'
+  end
 end

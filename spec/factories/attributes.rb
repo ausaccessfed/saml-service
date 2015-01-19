@@ -22,6 +22,9 @@ FactoryGirl.define do
       end
     end
 
+    factory :minimal_attribute do
+    end
+
     factory :attribute do
       after :create do | a |
         a.name_format = create(:name_format, :uri, attribute: a)
