@@ -160,7 +160,18 @@ module Metadata
 
     def contact_person(cp)
       attributes = { contactType: cp.contact_type }
+      c = cp.contact
       root.ContactPerson(ns, attributes) do |_|
+        root.Company { root.text c.company } if c.company
+        root.GivenName { root.text c.given_name } if c.given_name
+        root.SurName { root.text c.surname } if c.surname
+
+        if c.email_address
+          root.EmailAddress { root.text "mailto:#{c.email_address}" }
+        end
+        if c.telephone_number
+          root.TelephoneNumber { root.text c.telephone_number }
+        end
       end
     end
 
