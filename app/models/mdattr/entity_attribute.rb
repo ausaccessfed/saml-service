@@ -12,6 +12,7 @@ module MDATTR
       validates_presence [:created_at, :updated_at]
       return if new?
 
+      validates_presence :attributes
       single_parent [:entities_descriptor, :entity_descriptor]
     end
   end

@@ -17,7 +17,7 @@ FactoryGirl.define do
 
     trait :with_entity_attribute do
       after(:create) do | ed |
-        ed.entity_attribute = create :mdattr_entity_attribute, :with_attribute
+        ed.entity_attribute = create :mdattr_entity_attribute
       end
     end
 

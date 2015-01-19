@@ -96,5 +96,12 @@ RSpec.describe Metadata::SAML do
     include_examples 'ContactPerson xml'
   end
 
-  it 'EntityAttribute'
+  context 'EntityAttribute' do
+    let(:entity_attribute) { create :mdattr_entity_attribute }
+    before { subject.entity_attribute(entity_attribute) }
+    include_examples 'mdattr:EntityAttribute xml'
+  end
+
+  it 'attribute'
+  it 'attribute value'
 end

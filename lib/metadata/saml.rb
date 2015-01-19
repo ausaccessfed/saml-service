@@ -48,7 +48,7 @@ module Metadata
         publication_info(ed) if root_node
         registration_info(ed) if ed.registration_info?
         key_authority(ed) if ed.ca_keys?
-        entity_attribute(ed) if ed.entity_attribute?
+        entity_attribute(ed.entity_attribute) if ed.entity_attribute?
       end
     end
 
@@ -84,8 +84,31 @@ module Metadata
       end
     end
 
-    def entity_attribute(_ed)
-      mdattr.EntityAttributes(ns)
+    def entity_attribute(ea)
+      mdattr.EntityAttributes(ns) do |_|
+        ea.attributes.each do |attr|
+          attribute(attr)
+        end
+      end
+    end
+
+    def attribute(attr)
+      attributes = { Name: attr.name }
+      attributes[:NameFormat] = attr.name_format.uri if attr.name_format
+      attributes[:FriendlyName] = attr.friendly_name if attr.friendly_name
+      saml.Attribute(ns, attributes) do |_|
+        if attr.attribute_values
+          attr.attribute_values.each do |attr_val|
+            attribute_value(attr_val)
+          end
+        end
+      end
+    end
+
+    def attribute_value(attr_val)
+      saml.AttributeValue(ns) do |_|
+        root.text attr_val.value
+      end
     end
 
     def root_entity_descriptor(ed)
@@ -119,7 +142,7 @@ module Metadata
       root.Extensions do |_|
         publication_info(ed) if root_node
         registration_info(ed)
-        entity_attribute(ed) if ed.entity_attribute?
+        entity_attribute(ed.entity_attribute) if ed.entity_attribute?
       end
     end
 
