@@ -53,5 +53,9 @@ FactoryGirl.define do
         idp.disco_hints = create :mdui_disco_hint
       end
     end
+
+    trait :with_disabled_entity_desc do
+      association :entity_descriptor, enabled: false
+    end
   end
 end

@@ -47,5 +47,9 @@ FactoryGirl.define do
         create(:discovery_response_service, sp_sso_descriptor: sp)
       end
     end
+
+    trait :with_disabled_entity_desc do
+      association :entity_descriptor, enabled: false
+    end
   end
 end

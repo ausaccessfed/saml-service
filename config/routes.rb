@@ -1,3 +1,5 @@
+require 'api_constraints'
+
 Rails.application.routes.draw do
   URI_REGEXP = URI.regexp(%w(http https urn:mace))
   SHA1_REGEXP = /{sha1}(.*)?/
@@ -17,4 +19,11 @@ Rails.application.routes.draw do
 
   match '/:primary_tag/entities/:identifier',
         to: 'metadata_query#tagged_entities', via: :all
+
+  namespace :api, defaults: { format: 'json' } do
+    scope constraints: APIConstraints.new(version: 1, default: true) do
+      get '/discovery_service_query',
+          to: 'discovery_service_query#index'
+    end
+  end
 end

@@ -21,3 +21,5 @@ config/saml_service.yml
 
 # these should all be checked in to normalise the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
+
+.DS_Store
