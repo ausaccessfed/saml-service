@@ -64,7 +64,6 @@ RSpec.shared_examples 'ETL::ServiceProviders' do
       name: Faker::Lorem.word,
       is_required: false,
       reason: Faker::Lorem.word,
-      specificationRequired: ra[:specificationRequired] ||= false,
       values: []
     }
   end
@@ -132,13 +131,7 @@ RSpec.shared_examples 'ETL::ServiceProviders' do
         description: Faker::Lorem.sentence,
         oid: "#{Faker::Number.number(4)}:#{Faker::Number.number(4)}"
       }
-    end.push(
-      id: attribute_count,
-      description: Faker::Lorem.sentence,
-      oid: "#{Faker::Number.number(4)}:#{Faker::Number.number(4)}",
-      values: [],
-      specificationRequired: true
-    )
+    end
   end
 
   let(:attributes_list) do
@@ -178,10 +171,6 @@ RSpec.shared_examples 'ETL::ServiceProviders' do
 
     context 'created instance' do
       before { run }
-
-      it 'is provided with attributes that are not acceptable' do
-        expect(attribute_instances.size).to eq(attribute_count + 1)
-      end
 
       it 'requests expected number of attributes' do
         run
