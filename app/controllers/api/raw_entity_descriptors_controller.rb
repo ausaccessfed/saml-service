@@ -4,6 +4,8 @@ module API
   class RawEntityDescriptorsController < APIController
     include SetSAMLTypeFromXML
 
+    DEFAULT_EDUGAIN_EXPORT_TAG_NAME = 'aaf-edugain-export'
+
     before_action do
       @entity_source = EntitySource[source_tag: params[:tag]]
       raise(ResourceNotFound) if @entity_source.nil?
@@ -71,10 +73,15 @@ module API
       known_entity.tag_as(params[:tag])
 
       if patch_params[:edugain_enabled]
-        known_entity.tag_as('aaf-edugain-export')
+        known_entity.tag_as(edugain_export_tag)
       else
-        known_entity.untag_as('aaf-edugain-export')
+        known_entity.untag_as(edugain_export_tag)
       end
+    end
+
+    def edugain_export_tag
+      Rails.application.config.saml_service.api.edugain_export_tag_name ||
+        DEFAULT_EDUGAIN_EXPORT_TAG_NAME
     end
 
     def patch_params

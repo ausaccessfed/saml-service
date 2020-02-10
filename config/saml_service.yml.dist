@@ -1,6 +1,8 @@
 defaults: &defaults
   metadata:
     negative_cache_ttl: 600
+  api:
+    edugain_export_tag_name: 'aaf-edugain-export'
 
 development:
   <<: *defaults
