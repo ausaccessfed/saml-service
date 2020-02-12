@@ -27,6 +27,10 @@ Rails.application.routes.draw do
           constraints: { identifier: /.*/ }, via: :all
   end
 
+  match '/health',
+        to: 'application#health',
+        via: :all
+
   namespace :api, defaults: { format: 'json' } do
     scope constraints: APIConstraints.new(version: 1, default: true) do
       scope 'discovery' do

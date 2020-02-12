@@ -10,14 +10,19 @@ class ApplicationController < ActionController::Base
   rescue_from Unauthorized, with: :unauthorized
 
   protect_from_forgery with: :exception
-  before_action :ensure_authenticated
-  after_action :ensure_access_checked
+  before_action :ensure_authenticated, except: :health
+  after_action :ensure_access_checked, except: :health
 
   def subject
     subject = session[:subject_id] && Subject[session[:subject_id]]
     return nil unless subject.try(:functioning?)
 
     @subject = subject
+  end
+
+  def health
+    Redis.new.ping && Sequel::Model.db.test_connection
+    render body: 'ok'
   end
 
   protected
