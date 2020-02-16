@@ -80,7 +80,7 @@ module API
     end
 
     def edugain_export_tag
-      Rails.application.config.saml_service.api.edugain_export_tag_name ||
+      Rails.application.config.saml_service&.api&.edugain_export_tag_name ||
         DEFAULT_EDUGAIN_EXPORT_TAG_NAME
     end
 
